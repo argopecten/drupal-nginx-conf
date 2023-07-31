@@ -1,14 +1,6 @@
 server {
-  include       fastcgi_params;
-
   server_name   d10.local;
   root          /var/www/drupal/d10.local/web;
 
-  client_max_body_size 100M;
-  autoindex off;
-
-  listen        *:80;
-
   include       /var/www/drupal/nginx-config/core.d/*;
-
 }
