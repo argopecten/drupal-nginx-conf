@@ -1,7 +1,14 @@
+#######################################################
+###  site specific config file
+#######################################################
+
 server {
 
   ### PHP version
   set $V "8.1";
+
+  set $main_site_name "d10.local";
+  set $lut            1RandomText;
 
   server_name   d10.local;
   root          /var/www/drupal/d10.local/web;
