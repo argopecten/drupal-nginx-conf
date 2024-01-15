@@ -1,0 +1,22 @@
+server {
+
+  ### PHP version
+  set $V "8.1";
+
+  server_name   SERVERNAME;
+  root          /var/www/drupal/SERVERNAME/web;
+
+  # SSL settings
+  listen 80;
+  listen [::]:80;
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  ssl_certificate        /etc/ssl/certs/DOMAIN.pem;
+  ssl_certificate_key    /etc/ssl/private/DOMAIN.key;
+  # for Cloudflare Authenticated Origin Pulls:
+  # ssl_verify_client on;
+  # ssl_client_certificate /etc/ssl/certs/authenticated_origin_pull_ca.pem;
+
+  ### drupal specific configurations
+  include       /usr/local/etc/nginx-config/core.d/*;
+}
