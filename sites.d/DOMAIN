@@ -4,7 +4,8 @@ server {
   set $V "8.1";
 
   server_name   SERVERNAME;
-  root          /var/www/drupal/SERVERNAME/web;
+  root          /var/www/html;
+  index         index.nginx-debian.html;
 
   # SSL settings
   listen 80;
