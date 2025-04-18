@@ -1,26 +1,35 @@
-# vhost configuration for Drupal
+# /etc/nginx/sites-enabled/civilcrm.hu.conf
+# Nginx vhost file on r04
+# generated: 2025-04-18
+# Ansible managed, manual changes will be overwritten!
+
 server {
 
-  ### Replace variables in this file before activate!
-  # SERVERNAME "d1.local";              # server name
-  # DRUPAL_PLATFORM "drupal10";         # drupal platform
+    ### Replace variables in this file before activate!
+    # SERVERNAME "d1.local";              # server name
+    # DRUPAL_PLATFORM "drupal10";         # drupal platform
 
-  server_name SERVERNAME;
-  root        /var/www/DRUPAL_PLATFORM/web;
-  index       index.php;
+    server_name SERVERNAME;
+    root        /var/www/DRUPAL_PLATFORM/web;
+    index       index.php;
 
-  # SSL settings
-  listen 80;
-  listen [::]:80;
-  listen 443 ssl;
-  listen [::]:443 ssl;
-  ssl_certificate        /etc/ssl/certs/SERVERNAME.pem;
-  ssl_certificate_key    /etc/ssl/private/SERVERNAME.key;
-  # for Cloudflare Authenticated Origin Pulls:
-  # ssl_verify_client on;
-  # ssl_client_certificate /etc/ssl/certs/authenticated_origin_pull_ca.pem;
+    # Plain HTTP
+    listen 80;
+    listen [::]:80;
 
-  # include snpippets
-  include snippets/drupal.conf;     # Drupal specific configurations
-  include snippets/deny-all.conf;   # Deny access to sensitive files
+    # SSL settings
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    # SSL certs
+    ssl_certificate        /etc/ssl/certs/SERVERNAME.pem;
+    ssl_certificate_key    /etc/ssl/private/SERVERNAME.key;
+  
+    # Cloudflare Authenticated Origin Pulls
+    # ssl_verify_client on;
+    # ssl_client_certificate /etc/ssl/certs/authenticated_origin_pull_ca.pem;
+
+    # include snpippets
+    include /etc/nginx/snippets/drupal.conf;     # Drupal specific configurations
+    include /etc/nginx/snippets/deny-all.conf;   # Deny access to sensitive files
+
 }
