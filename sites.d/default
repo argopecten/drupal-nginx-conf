@@ -8,28 +8,25 @@ server {
 
   server_name _;
   root /var/www/html;
-  index index.php index.nginx-debian.html;
+  index index.nginx-debian.html;
 
   listen 80 default_server;
   listen [::]:80 default_server;
+
+  # SSL configuration
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+  include snippets/snakeoil.conf;
 
   # First attempt to serve request as file, then as directory, then fall back to 404.
   location / {
     try_files $uri $uri/ =404;
   }
 
-  # pass PHP scripts to FastCGI server
-  location ~ \.php$ {
-    include snippets/fastcgi-php.conf;                                # Parameter passed to the FastCGI server
-    include fastcgi_params;
-    fastcgi_pass unix:/run/php/php8.3-fpm.sock;         # address of the FastCGI server, as unix socket path
-    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; # the script name to be executed by PHP
-    fastcgi_param HTTP_PROXY      "";                                 # Block httpoxy attacks. See https://httpoxy.org/.
-    fastcgi_param QUERY_STRING    $query_string;                      # pass request parameters to PHP
-    fastcgi_intercept_errors      on;                                 # passing FastCGI server responses (300 or higher) to clients
+  # Allow access to the letsencrypt.org ACME challenges directory.
+  location ^~ /.well-known/acme-challenge {
+    alias /var/www/dehydrated;
+    try_files $uri 404;
   }
-
-  # include snpippets
-  include snippets/deny-all.conf;
 
 }
